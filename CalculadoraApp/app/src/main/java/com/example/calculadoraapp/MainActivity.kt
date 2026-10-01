@@ -73,9 +73,9 @@ class MainActivity : AppCompatActivity() {
                     resultB = (b1 + b2)
                 }
                 "subtract" -> {
-                    resultR = (r1 - r2 + 256)
-                    resultG = (g1 - g2 + 256)
-                    resultB = (b1 - b2 + 256)
+                    resultR = (r1 - r2)
+                    resultG = (g1 - g2)
+                    resultB = (b1 - b2)
                 }
                 "multiply" -> {
                     resultR = (r1 * r2)
@@ -83,16 +83,16 @@ class MainActivity : AppCompatActivity() {
                     resultB = (b1 * b2)
                 }
                 "divide" -> {
-                    resultR = if (r2 != 0) (r1 / r2) else 0
-                    resultG = if (g2 != 0) (g1 / g2) else 0
-                    resultB = if (b2 != 0) (b1 / b2) else 0
+                    resultR = if (r2 != 0) (r1 / r2) else 255
+                    resultG = if (g2 != 0) (g1 / g2) else 255
+                    resultB = if (b2 != 0) (b1 / b2) else 255
                 }
             }
 
             // make sure the colors are in the proper range
-            resultR %= 256
-            resultG %= 256
-            resultB %= 256
+            resultR = Math.min(Math.max(0, resultR), 255)
+            resultG = Math.min(Math.max(0, resultG), 255)
+            resultB = Math.min(Math.max(0, resultB), 255)
 
             val resultColor = Color.argb(255, resultR, resultG, resultB)
             updateResult(resultColor)
