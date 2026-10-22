@@ -1,12 +1,11 @@
 package com.example.calculadoraapp
 
-import android.content.res.ColorStateList
+import android.content.Intent
 import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Button
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -40,6 +39,12 @@ class MainActivity : AppCompatActivity() {
 
         val result = findViewById<TextView>(R.id.resultView)
 
+        var historyBtn = findViewById<Button>(R.id.past)
+        var list = intent.getStringArrayListExtra("calculatorHistory")
+        if (list == null) {
+            list = ArrayList<String>()
+        }
+
         fun updateResult(selectedColor: Int) {
             val red2 = Color.red(selectedColor)
             val green2 = Color.green(selectedColor)
@@ -66,26 +71,32 @@ class MainActivity : AppCompatActivity() {
             var resultG = 0
             var resultB = 0
 
+            var operationStr = ""
+
             when (operation) {
                 "add" -> {
                     resultR = (r1 + r2)
                     resultG = (g1 + g2)
                     resultB = (b1 + b2)
+                    operationStr = "+"
                 }
                 "subtract" -> {
                     resultR = (r1 - r2)
                     resultG = (g1 - g2)
                     resultB = (b1 - b2)
+                    operationStr = "-"
                 }
                 "multiply" -> {
                     resultR = (r1 * r2)
                     resultG = (g1 * g2)
                     resultB = (b1 * b2)
+                    operationStr = "*"
                 }
                 "divide" -> {
                     resultR = if (r2 != 0) (r1 / r2) else 255
                     resultG = if (g2 != 0) (g1 / g2) else 255
                     resultB = if (b2 != 0) (b1 / b2) else 255
+                    operationStr = "/"
                 }
             }
 
@@ -96,6 +107,12 @@ class MainActivity : AppCompatActivity() {
 
             val resultColor = Color.argb(255, resultR, resultG, resultB)
             updateResult(resultColor)
+            list.add(String.format("#%06X %s #%06X = #%06X",
+                0xFFFFFF and colorOne,
+                operationStr,
+                0xFFFFFF and colorTwo,
+                0xFFFFFF and resultColor
+            ))
         }
 
         colorPickerOne.setColorListener(ColorEnvelopeListener { envelope, fromUser ->
@@ -111,6 +128,12 @@ class MainActivity : AppCompatActivity() {
         autoCompleteTextView.setOnItemClickListener { parent, view, position, id ->
             operation = parent.getItemAtPosition(position) as String
             calculateAndUpdateResult()
+        }
+
+        historyBtn.setOnClickListener {
+            val historyIntent = Intent(this, History::class.java)
+            historyIntent.putStringArrayListExtra("calculatorHistory", list)
+            startActivity(historyIntent)
         }
     }
 }
