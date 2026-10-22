@@ -7,6 +7,8 @@ import android.widget.Button
 import android.widget.ListView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class History : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,13 +17,11 @@ class History : AppCompatActivity() {
         setContentView(R.layout.activity_history)
 
         val button = findViewById<Button>(R.id.backToHome)
-        val historyList = findViewById<ListView>(R.id.historyList)
-
-        val list = intent.getStringArrayListExtra("calculatorHistory")
-        if (list != null) {
-            var arrayAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, list)
-            historyList.adapter = arrayAdapter
-        }
+        val historyList = findViewById<RecyclerView>(R.id.historyList)
+        val list = intent.getStringArrayListExtra("calculatorHistory") ?: arrayListOf()
+        historyList.layoutManager = LinearLayoutManager(this)
+        val adapter = HistoryAdapter(list)
+        historyList.adapter = adapter
 
         button.setOnClickListener {
             val mainIntent = Intent(this, MainActivity::class.java)
