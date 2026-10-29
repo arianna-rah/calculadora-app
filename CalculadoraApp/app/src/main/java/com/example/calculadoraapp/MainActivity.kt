@@ -24,8 +24,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         // apply fragments into our view
-        val fragmentManager = supportFragmentManager
-
         val colorPickerFragmentOne = ColorPickerFragment()
         val colorPickerFragmentTwo = ColorPickerFragment()
 
