@@ -3,6 +3,9 @@
     android:id="@+id/textHistoryItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#FDE1E1"
     android:padding="16dp"
-    android:textSize="18sp"
-    android:textColor="#333333" />
+    android:textColor="#333333"
+    android:textSize="18sp" />
+
+

@@ -11,8 +11,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.skydoves.colorpickerview.ColorPickerView
-import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,11 +23,18 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val colorPickerOne = findViewById<ColorPickerView>(R.id.colorPickerOne)
-        var colorOne =  0
-        val colorPickerTwo = findViewById<ColorPickerView>(R.id.colorPickerTwo)
-        var colorTwo =  0
+        // apply fragments into our view
+        val fragmentManager = supportFragmentManager
 
+        val colorPickerFragmentOne = ColorPickerFragment()
+        val colorPickerFragmentTwo = ColorPickerFragment()
+
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.color_picker_one_fragment, colorPickerFragmentOne)
+            replace(R.id.color_picker_two_fragment, colorPickerFragmentTwo)
+        }.commit()
+
+        // regular logic
         val items = listOf("add", "subtract", "multiply", "divide")
         val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, items)
         val autoCompleteTextView = findViewById<AutoCompleteTextView>(R.id.autoCompleteTextView)
@@ -59,6 +64,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         fun calculateAndUpdateResult() {
+
+            // grab color values from fragments
+            val colorOne = colorPickerFragmentOne.color
+            val colorTwo = colorPickerFragmentTwo.color
+
             val r1 = Color.red(colorOne)
             val g1 = Color.green(colorOne)
             val b1 = Color.blue(colorOne)
@@ -115,18 +125,18 @@ class MainActivity : AppCompatActivity() {
             ))
         }
 
-        colorPickerOne.setColorListener(ColorEnvelopeListener { envelope, fromUser ->
-            colorOne = envelope.color
+        // pick up color change lambda and update result!
+        colorPickerFragmentOne.onColorChanged = {
             calculateAndUpdateResult()
-        })
-
-        colorPickerTwo.setColorListener(ColorEnvelopeListener { envelope, fromUser ->
-            colorTwo = envelope.color
-            calculateAndUpdateResult()
-        })
+        }
 
         autoCompleteTextView.setOnItemClickListener { parent, view, position, id ->
             operation = parent.getItemAtPosition(position) as String
+            calculateAndUpdateResult()
+        }
+
+        // pick up color change lambda and update result!
+        colorPickerFragmentTwo.onColorChanged = {
             calculateAndUpdateResult()
         }
 

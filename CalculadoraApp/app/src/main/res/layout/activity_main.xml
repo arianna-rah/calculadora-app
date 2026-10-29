@@ -11,84 +11,92 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="ColorCalc84"
-        android:textSize="28sp"
+        android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/color_picker_one_fragment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread" />
 
-    <com.skydoves.colorpickerview.ColorPickerView
-        android:id="@+id/colorPickerOne"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/color_picker_one_fragment"
+        android:name="com.example.calculadoraapp.ColorPickerFragment"
         android:layout_width="0dp"
-        android:layout_height="160dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintVertical_weight="1.2"
+        tools2:layout="@layout/color_picker_with_data" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:hint="Select an operation"
+        app:layout_constraintBottom_toTopOf="@+id/color_picker_two_fragment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/colorPickerOne">
+        app:layout_constraintTop_toBottomOf="@+id/color_picker_one_fragment">
 
         <AutoCompleteTextView
             android:id="@+id/autoCompleteTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false"
             android:clickable="true"
+            android:focusable="false"
             android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.skydoves.colorpickerview.ColorPickerView
-        android:id="@+id/colorPickerTwo"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/color_picker_two_fragment"
+        android:name="com.example.calculadoraapp.ColorPickerFragment"
         android:layout_width="0dp"
-        android:layout_height="160dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/resultView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+        app:layout_constraintVertical_weight="1.2"
+        tools2:layout="@layout/color_picker_with_data" />
 
     <TextView
         android:id="@+id/resultView"
-        android:layout_width="382dp"
-        android:layout_height="285dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/result_box"
         android:gravity="center"
         android:text="Result"
         android:textColor="#FFFFFF"
-        android:textSize="44sp"
+        android:textSize="32sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/past"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/colorPickerTwo"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@id/color_picker_two_fragment"
+        app:layout_constraintVertical_weight="1.0" />
 
     <Button
         android:id="@+id/past"
-        android:layout_width="383dp"
-        android:layout_height="73dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:text="History"
-        android:textSize="34sp"
+        android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/resultView"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/resultView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
